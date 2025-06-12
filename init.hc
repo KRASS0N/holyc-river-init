@@ -1,21 +1,21 @@
 #include "init.HH"
-#define COMMAND_NUM 12;
+#define COMMAND_NUM 11;
 
 I64 pids[COMMAND_NUM];
 
 U8 *commands[COMMAND_NUM][8] = {
-    {"riverctl", "map", "normal", "Super+Shift", "Return", "spawn", "\"kitty --single-instance\"", NULL},
-    {"riverctl", "map", "normal", "Super+Shift", "C", "close", NULL},
-    {"riverctl", "map", "normal", "Super+Shift", "E", "exit", NULL},
-    {"riverctl", "map", "normal", "Super", "J", "focus-view", "next", NULL},
-    {"riverctl", "map", "normal", "Super", "K", "focus-view", "previous", NULL},
-    {"riverctl", "map", "normal", "Super+Shift", "J", "swap", "next", NULL},
-    {"riverctl", "map", "normal", "Super+Shift", "K", "swap", "previous", NULL},
-    {"riverctl", "map", "normal", "Super", "Period", "send-to-output", "next", NULL},
-    {"riverctl", "map", "normal", "Super", "Comma", "send-to-output", "previous", NULL},
-    {"riverctl", "map", "normal", "Super", "Return", "zoom", NULL, NULL},
-    {"riverctl", "map", "normal", "Super", "Return", "zoom", NULL, NULL},
-    {"riverctl", "default-layout", "rivertile", NULL, NULL, NULL, NULL, NULL}
+    { "riverctl", "map", "normal", "Super+Shift", "Return", "spawn", "kitty --single-instance", NULL },
+    { "riverctl", "map", "normal", "Super+Shift", "C", "close", NULL, NULL },
+    { "riverctl", "map", "normal", "Super+Shift", "E", "exit", NULL, NULL },
+    { "riverctl", "map", "normal", "Super", "J", "focus-view", "next", NULL },
+    { "riverctl", "map", "normal", "Super", "K", "focus-view", "previous", NULL },
+    { "riverctl", "map", "normal", "Super+Shift", "J", "swap", "next", NULL },
+    { "riverctl", "map", "normal", "Super+Shift", "K", "swap", "previous", NULL },
+    { "riverctl", "map", "normal", "Super", "Period", "send-to-output", "next", NULL },
+    { "riverctl", "map", "normal", "Super", "Comma", "send-to-output", "previous", NULL },
+    { "riverctl", "map", "normal", "Super", "Return", "zoom", NULL, NULL },
+    { "riverctl", "default-layout", "rivertile", NULL, NULL, NULL, NULL, NULL },
+    
 };
 
 for (I64 i = 0; i < COMMAND_NUM; ++i) {

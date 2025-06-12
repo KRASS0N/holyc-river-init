@@ -1,0 +1,16 @@
+riverctl map normal Super+Shift Return spawn "kitty --single-instance"
+riverctl map normal Super+Shift C close
+riverctl map normal Super+Shift E exit
+
+riverctl map normal Super J focus-view next
+riverctl map normal Super K focus-view previous
+
+riverctl map normal Super+Shift J swap next
+riverctl map normal Super+Shift K swap previous
+
+riverctl map normal Super Period send-to-output next
+riverctl map normal Super Comma send-to-output previous
+
+riverctl map normal Super Return zoom
+
+riverctl default-layout rivertile

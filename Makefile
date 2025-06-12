@@ -15,7 +15,10 @@ BIN = init
 .PHONY: all build clean
 
 # Default target (build)
-all: build
+all: render build
+
+render:
+	python3 render.py
 
 # Build target: Compiles the main.hc file into the executable
 build: $(BIN)
@@ -26,6 +29,7 @@ $(BIN): $(SRC)
 # Clean target: Removes the compiled executable
 clean:
 	rm -f $(BIN)
+	rm -f $(SRC)
 
 # Note: This Makefile assumes 'main.hc' is a complete source file that 'hcc' can directly compile into an executable.
 # If 'hcc' requires specific flags for compilation or linking, you would add them to the $(CC) line.
