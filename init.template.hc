@@ -53,17 +53,24 @@ for (I64 i = 1; i < 9; ++i) {
     // tag bitmask
     U8 tags = 1 << (i-1);
 
+    // default StrPrint len is 256, malloc more if needed
     // Super+[1-9] to focus tag [0-8]
-    system(StrPrint(NULL, "riverctl map normal Super %d set-focused-tags %d", i, tags));
+    U8 *buf = StrPrint(NULL, "riverctl map normal Super %d set-focused-tags %d", i, tags);
+    system(buf);
 
     // Super+Shift+[1-9] to tag focused view with tag [0-8]
-    system(StrPrint(NULL, "riverctl map normal Super+Shift %d set-view-tags %d", i, tags));
+    StrPrint(buf, "riverctl map normal Super+Shift %d set-view-tags %d", i, tags);
+    system(buf);
 
     // Super+Control+[1-9] to toggle focus of tag [0-8]
-    system(StrPrint(NULL, "riverctl map normal Super+Control %d toggle-focused-tags %d", i, tags));
+    StrPrint(buf, "riverctl map normal Super+Control %d toggle-focused-tags %d", i, tags);
+    system(buf);
 
     // Super+Shift+Control+[1-9] to toggle tag [0-8] of focused view
-    system(StrPrint(NULL, "riverctl map normal Super+Shift+Control %d toggle-view-tags %d", i, tags));
+    StrPrint(buf, "riverctl map normal Super+Shift+Control %d toggle-view-tags %d", i, tags);
+    system(buf);
+
+    Free(buf);
 }
 
 // Super+0 to focus all tags
