@@ -19,7 +19,7 @@ commands = [
 ]
 
 environment = Environment(loader=FileSystemLoader("."))
-template = environment.get_template("init.template.hc")
+template = environment.get_template("init.template.HC")
 
 holyc = template.render(
     command_num=len(commands),
@@ -27,5 +27,5 @@ holyc = template.render(
     commands=commands
 )
 
-with open("init.hc", "w") as file:
+with open("init.HC", "w") as file:
     file.write(holyc)

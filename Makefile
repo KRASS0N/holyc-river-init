@@ -2,7 +2,7 @@
 CC = hcc
 
 # Define the source file
-SRC = init.hc
+SRC = init.HC
 
 # Define the object file (if intermediate objects were needed, but hcc often compiles directly)
 # For simplicity with hcc, we'll compile directly to the executable.
@@ -12,7 +12,7 @@ SRC = init.hc
 BIN = init
 
 # Phony targets to prevent conflicts with file names
-.PHONY: all build clean
+.PHONY: all render build clean run
 
 # Default target (build)
 all: render build
@@ -25,6 +25,9 @@ build: $(BIN)
 
 $(BIN): $(SRC)
 	$(CC) $< -o $@
+
+run:
+	./init
 
 # Clean target: Removes the compiled executable
 clean:
