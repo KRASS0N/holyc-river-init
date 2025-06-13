@@ -13,11 +13,11 @@ riverctl map normal Super Comma send-to-output previous
 
 riverctl map normal Super Return zoom
 
-riverctl map normal Super H send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map normal Super H send-layout-cmd rivertile main-ratio -0.05
+riverctl map normal Super L send-layout-cmd rivertile main-ratio +0.05
 
-riverctl map normal Super+Shift H send-layout-cmd rivertile "main-count +1"
-riverctl map normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+riverctl map normal Super+Shift H send-layout-cmd rivertile main-count +1
+riverctl map normal Super+Shift L send-layout-cmd rivertile main-count -1
 
 riverctl map normal Super+Alt H move left 100
 riverctl map normal Super+Alt J move down 100

@@ -54,37 +54,27 @@ Free(file);
 
 /**************** WRITING INIT.HC ****************/
 
-U8 *init_hc = FileRead("init.template2.HC", &filesize);
-U8 *templated_hc;
-for (I64 i = 0; i < filesize; ++i) {
-    U8 char = init_hc[i];
-    I64 var_len = 15;
+U8 *init_hc = FileRead("init.template.HC", &filesize);
+U8 *hc_top = MAlloc(filesize);
+StrFirstRem(init_hc, "✟", hc_top);
 
-    if (char == '>' && i - var_len >= 0 && StrNCmp(init_hc + i - var_len, "% command_num %>", var_len) == 0) {
-        U8 *hc_top = MAlloc(filesize);
-        StrFirstRem(init_hc, "%", hc_top);
-        StrFirstRem(init_hc, ">");
-        templated_hc = StrPrint(NULL, "%s%d%s", hc_top, command_count, init_hc);
-        Free(hc_top);
-        Free(init_hc);
-        break;
-    }
-}
-filesize = StrLen(templated_hc);
-for (I64 i = 0; i < filesize; ++i) {
-    U8 char = templated_hc[i];
-    I64 var_len = 14;
+U8 *templated_hc = StrPrint(NULL, "%s%d%s", hc_top, command_count, init_hc+2);
+Free(hc_top);
+Free(init_hc);
 
-    if (char == '>' && i - var_len >= 0 && StrNCmp(templated_hc + i - var_len, "% max_length %>", var_len) == 0) {
-        U8 *hc_top = MAlloc(filesize);
-        StrFirstRem(templated_hc, "%", hc_top);
-        StrFirstRem(templated_hc, ">");
-        init_hc = StrPrint(NULL, "%s%d%s", hc_top, max_size, templated_hc);
-        "%s\n", init_hc;
-        Free(hc_top);
-        break;
-    }
-}
+hc_top = MAlloc(filesize);
+StrFirstRem(templated_hc, "✟", hc_top);
+
+// add 1 to max_size for NULL
+init_hc = StrPrint(NULL, "%s%d%s", hc_top, max_size+1, templated_hc+2);
+Free(hc_top);
+Free(templated_hc);
+
+hc_top = MAlloc(filesize);
+StrFirstRem(init_hc, "✟", hc_top);
+
+U8 *cmd_str = MAlloc(2*filesize);
+I64 str_i = 0;
 
 I64 ok = TRUE;
 while (ok) {
@@ -100,25 +90,38 @@ while (ok) {
     }
 
     // print out the args
-    "{ ";
+    StrCpy(cmd_str+str_i, "{ ");
+    str_i += 2;
     for (I64 i = 0; i < *size; ++i) {
         U8 *arg = PtrVecGet(cmd, i);
+        U8 *arg_str;
         if (arg[0] == '\"') {
-            U64 arg_end = StrLen(arg);
-            arg[arg_end-1] = '\0';
-            "\"\\%s\\\"\", ", arg; 
+            arg_str = StrPrint(NULL, "%s, ", arg); 
         } else {
-            "\"%s\", ", arg; 
+            arg_str = StrPrint(NULL, "\"%s\", ", arg); 
         }
+        StrCpy(cmd_str+str_i, arg_str);
+        str_i += StrLen(arg_str);
+        Free(arg_str);
     }
     // add NULL padding so they are all the same size
     for (I64 i = 0; i < max_size - *size; ++i) {
-        "NULL, "; 
+        StrCpy(cmd_str+str_i, "NULL, ");
+        str_i += 6;
     }
-    "NULL },\n";
+    StrCpy(cmd_str+str_i, "NULL },\n");
+    str_i += 8;
     Free(size);
     PtrVecRelease(cmd);
 }
+
+templated_hc = StrPrint(NULL, "%s%s%s", hc_top, cmd_str, init_hc+2);
+Free(hc_top);
+Free(init_hc);
+Free(cmd_str);
 PtrVecRelease(commands);
+
+Rm("init.HC");
+FileWrite("init.HC", templated_hc, StrLen(templated_hc));
 
 exit(0);

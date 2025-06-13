@@ -1,23 +1,13 @@
 // include extern c functions
 #include "init.HH"
-#define COMMAND_NUM {{ command_num }};
+#define COMMAND_NUM ✟
 
 I64 pids[COMMAND_NUM];
 
 // static config commands that can run in any order
-// render.py will populate this from commands.txt
-U8 *commands[COMMAND_NUM][{{ max_length }}] = {
-    {% for command in commands %}
-        {%- set rendered_args = [] -%}
-        {%- for arg in command -%}
-            {%- if arg is none -%}
-                {%- set _ = rendered_args.append("NULL") -%}
-            {%- else -%}
-                {%- set _ = rendered_args.append('"' ~ arg ~ '"') -%}
-            {%- endif -%}
-        {%- endfor -%}
-    { {{ rendered_args | join(', ') }} },
-    {% endfor %}
+// gen_hc will populate this from commands.txt
+U8 *commands[COMMAND_NUM][✟] = {
+    ✟
 };
 
 // spawn child processes
@@ -30,8 +20,7 @@ for (I64 i = 0; i < COMMAND_NUM; ++i) {
     } else if (pids[i] == 0) {
         execvp(commands[i][0], commands[i]);
 
-        perror("failed to execute command");
-        "%s\n", commands[i][0];
+        "failed to execute command: %s\n", commands[i][0];
 
         _exit(1);
     } else {

@@ -12,16 +12,14 @@ SRC = init.HC
 BIN = init
 
 # Phony targets to prevent conflicts with file names
-.PHONY: all render gen_hc build clean run
+.PHONY: all gen_hc build clean run
 
 # Default target (build)
-all: render gen_hc build
-
-render:
-	python3 render.py
+all: gen_hc build
 
 gen_hc: gen_hc.HC
 	$(CC) $< -o $@
+	./gen_hc
 
 # Build target: Compiles the main.hc file into the executable
 build: $(BIN)
@@ -30,7 +28,7 @@ $(BIN): $(SRC)
 	$(CC) $< -o $@
 
 run:
-	./gen_hc
+	./init
 
 # Clean target: Removes the compiled executable
 clean:
