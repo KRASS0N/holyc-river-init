@@ -10,6 +10,9 @@ I64 slice_start = 0;
 I64 in_quotes = FALSE;
 I64 *cmd_size = CAlloc(sizeof(I64));
 I64 max_size = 0;
+I64 command_count = 0;
+
+/**************** READING COMMANDS.TXT ****************/
 
 for (I64 i = 0; i < filesize; ++i) {
     U8 char = file[i];
@@ -43,11 +46,47 @@ for (I64 i = 0; i < filesize; ++i) {
         }
         command = PtrVecNew();
         cmd_size = CAlloc(sizeof(I64));
+        ++command_count;
+    }
+}
+Free(file);
+
+
+/**************** WRITING INIT.HC ****************/
+
+U8 *init_hc = FileRead("init.template2.HC", &filesize);
+U8 *templated_hc;
+for (I64 i = 0; i < filesize; ++i) {
+    U8 char = init_hc[i];
+    I64 var_len = 15;
+
+    if (char == '>' && i - var_len >= 0 && StrNCmp(init_hc + i - var_len, "% command_num %>", var_len) == 0) {
+        U8 *hc_top = MAlloc(filesize);
+        StrFirstRem(init_hc, "%", hc_top);
+        StrFirstRem(init_hc, ">");
+        templated_hc = StrPrint(NULL, "%s%d%s", hc_top, command_count, init_hc);
+        Free(hc_top);
+        Free(init_hc);
+        break;
+    }
+}
+filesize = StrLen(templated_hc);
+for (I64 i = 0; i < filesize; ++i) {
+    U8 char = templated_hc[i];
+    I64 var_len = 14;
+
+    if (char == '>' && i - var_len >= 0 && StrNCmp(templated_hc + i - var_len, "% max_length %>", var_len) == 0) {
+        U8 *hc_top = MAlloc(filesize);
+        StrFirstRem(templated_hc, "%", hc_top);
+        StrFirstRem(templated_hc, ">");
+        init_hc = StrPrint(NULL, "%s%d%s", hc_top, max_size, templated_hc);
+        "%s\n", init_hc;
+        Free(hc_top);
+        break;
     }
 }
 
 I64 ok = TRUE;
-
 while (ok) {
     PtrVec *cmd = PtrVecPop(commands, &ok);
     // will attempt to free null cmd on last iteration otherwise
@@ -56,8 +95,8 @@ while (ok) {
     }
     I64 cmd_ok = TRUE;
     I64 *size = PtrVecPop(cmd, &cmd_ok);
-    if (cmd_ok) {
-        "CMD SIZE = %d\n", *size;
+    if (!cmd_ok) {
+        continue;
     }
 
     // print out the args
@@ -76,12 +115,10 @@ while (ok) {
     for (I64 i = 0; i < max_size - *size; ++i) {
         "NULL, "; 
     }
-    "NULL }\n\n";
+    "NULL },\n";
     Free(size);
     PtrVecRelease(cmd);
 }
-
-Free(file);
 PtrVecRelease(commands);
 
 exit(0);
