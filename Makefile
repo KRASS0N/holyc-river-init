@@ -12,13 +12,16 @@ SRC = init.HC
 BIN = init
 
 # Phony targets to prevent conflicts with file names
-.PHONY: all render build clean run
+.PHONY: all render gen_hc build clean run
 
 # Default target (build)
-all: render build
+all: render gen_hc build
 
 render:
 	python3 render.py
+
+gen_hc: gen_hc.HC
+	$(CC) $< -o $@
 
 # Build target: Compiles the main.hc file into the executable
 build: $(BIN)
@@ -27,11 +30,12 @@ $(BIN): $(SRC)
 	$(CC) $< -o $@
 
 run:
-	./init
+	./gen_hc
 
 # Clean target: Removes the compiled executable
 clean:
 	rm -f $(BIN)
+	rm -f gen_hc
 	rm -f $(SRC)
 
 # Note: This Makefile assumes 'main.hc' is a complete source file that 'hcc' can directly compile into an executable.
