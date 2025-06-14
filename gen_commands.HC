@@ -47,6 +47,15 @@ file_i += StrLen(command);
 
 Free(command);
 
+// Various media key mapping examples for both normal and locked mode which do not have a modifier
+
+U8 *modes[2] = {"normal", "locked"};
+for (I64 i = 0; i < 2; ++i) {
+    command = StrPrint(NULL, "riverctl map %s None XF86Eject spawn \"eject -T\"\n", modes[i]);
+    StrCpy(file_append+file_i, command);
+    file_i += StrLen(command);
+}
+
 U8 *newfile = StrMerge(file, file_append);
 FileWrite("commands.txt", newfile, StrLen(newfile));
 

@@ -54,7 +54,7 @@ Free(file);
 
 /**************** WRITING INIT.HC ****************/
 
-U8 *init_hc = FileRead("init.template.HC", &filesize);
+U8 *init_hc = FileRead("init.template.HC");
 U8 *hc_top = MAlloc(filesize);
 StrFirstRem(init_hc, "✟", hc_top);
 
@@ -73,7 +73,7 @@ Free(templated_hc);
 hc_top = MAlloc(filesize);
 StrFirstRem(init_hc, "✟", hc_top);
 
-U8 *cmd_str = MAlloc(7*filesize);
+U8 *cmd_str = MAlloc(2*filesize);
 I64 str_i = 0;
 
 I64 ok = TRUE;
