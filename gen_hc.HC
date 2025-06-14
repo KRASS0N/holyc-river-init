@@ -73,7 +73,7 @@ Free(templated_hc);
 hc_top = MAlloc(filesize);
 StrFirstRem(init_hc, "✟", hc_top);
 
-U8 *cmd_str = MAlloc(2*filesize);
+U8 *cmd_str = MAlloc(3*filesize);
 I64 str_i = 0;
 
 I64 ok = TRUE;
@@ -115,7 +115,7 @@ while (ok) {
     PtrVecRelease(cmd);
 }
 
-templated_hc = StrPrint(NULL, "%s%s%s", hc_top, cmd_str, init_hc+2);
+templated_hc = StrMerge(hc_top, cmd_str, init_hc+2);
 Free(hc_top);
 Free(init_hc);
 Free(cmd_str);

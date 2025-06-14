@@ -11,7 +11,11 @@ BIN = init
 .PHONY: all gen_hc build clean run
 
 # Default target (build)
-all: gen_hc build
+all: gen_commands gen_hc build
+
+gen_commands: gen_commands.HC
+	$(CC) $< -o $@
+	./gen_commands
 
 gen_hc: gen_hc.HC
 	$(CC) $< -o $@
@@ -28,4 +32,4 @@ run:
 
 # Clean target: Removes the compiled executable
 clean:
-	rm -f $(BIN) gen_hc $(SRC)
+	rm -f $(BIN) gen_commands commands.txt gen_hc $(SRC)
