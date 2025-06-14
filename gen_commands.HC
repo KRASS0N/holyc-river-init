@@ -33,9 +33,24 @@ for (I64 i = 1; i < 9; ++i) {
     Free(command);
 }
 
+// Super+0 to focus all tags
+// Super+Shift+0 to tag focused view with all tags
+U64 all_tags = (1 << 32) - 1;
+
+U8 *command = StrPrint(NULL, "riverctl map normal Super 0 set-focused-tags %u\n", all_tags);
+StrCpy(file_append+file_i, command);
+file_i += StrLen(command);
+
+StrPrint(command, "riverctl map normal Super+Shift 0 set-view-tags %u\n", all_tags);
+StrCpy(file_append+file_i, command);
+file_i += StrLen(command);
+
+Free(command);
+
 U8 *newfile = StrMerge(file, file_append);
 FileWrite("commands.txt", newfile, StrLen(newfile));
 
+Free(newfile);
 Free(file);
 Free(file_append);
 

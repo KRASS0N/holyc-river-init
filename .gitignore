@@ -1,2 +1,5 @@
 init
-init.hc
+init.HC
+gen_hc
+commands.txt
+gen_commands

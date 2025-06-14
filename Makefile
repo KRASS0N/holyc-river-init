@@ -8,7 +8,7 @@ SRC = init.HC
 BIN = init
 
 # Phony targets to prevent conflicts with file names
-.PHONY: all gen_hc build clean run
+.PHONY: all gen_commands gen_hc build clean run
 
 # Default target (build)
 all: gen_commands gen_hc build

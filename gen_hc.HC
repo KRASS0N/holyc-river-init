@@ -73,7 +73,7 @@ Free(templated_hc);
 hc_top = MAlloc(filesize);
 StrFirstRem(init_hc, "✟", hc_top);
 
-U8 *cmd_str = MAlloc(3*filesize);
+U8 *cmd_str = MAlloc(7*filesize);
 I64 str_i = 0;
 
 I64 ok = TRUE;
