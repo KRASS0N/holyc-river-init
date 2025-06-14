@@ -123,5 +123,6 @@ PtrVecRelease(commands);
 
 Rm("init.HC");
 FileWrite("init.HC", templated_hc, StrLen(templated_hc));
+Free(templated_hc);
 
 exit(0);

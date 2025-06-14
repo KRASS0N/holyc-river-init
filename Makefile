@@ -32,9 +32,7 @@ run:
 
 # Clean target: Removes the compiled executable
 clean:
-	rm -f $(BIN)
-	rm -f gen_hc
-	rm -f $(SRC)
+	rm -f $(BIN) gen_hc $(SRC)
 
 # Note: This Makefile assumes 'main.hc' is a complete source file that 'hcc' can directly compile into an executable.
 # If 'hcc' requires specific flags for compilation or linking, you would add them to the $(CC) line.
